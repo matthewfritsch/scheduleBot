@@ -7,7 +7,7 @@ Nothing here yet. This will be updated as changes are made.
 ### Goals of scheduleBot
   - [ ] Appears on Discord
   - [ ] Responds to a command
-    - Initial goal is to use something like !sch <command> [formatting]
+    - Initial goal is to use something like !sch \<command\> [formatting]
   - [ ] Will store date information from user commands
   - [ ] Will alert user of event/reminder as date approaches
   - [ ] Has more locale options than PST
