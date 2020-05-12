@@ -1,5 +1,9 @@
 # scheduleBot
 This bot is written for use with discord. It is intended to parse a command and notify users of an upcoming event or reminder.
+
+### Commands
+Nothing here yet. This will be updated as changes are made.
+
 ### Goals of scheduleBot
   - [ ] Appears on discord
   - [ ] Responds to a command
