@@ -8,7 +8,7 @@ Nothing here yet. This will be updated as changes are made.
   - [X] Appears on Discord
   - [X] Responds to a command
     - Initial goal is to use something like !sch \<command\> [OPTIONS]
-    - [ ] Has 'add' command (!sch add <eventname> [OPTIONS])
+    - [ ] Has 'add' command (!sch add \<eventname\> [OPTIONS])
     - [ ] Has 'del' command
     - [ ] Has 'edit' command
     - [ ] Has 'abp' command (add by parts, bot will prompt user piece by piece)
