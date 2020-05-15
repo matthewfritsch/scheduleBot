@@ -144,10 +144,6 @@ def addEvent(myInp, myEvents):
 def editEvent(myInp, myEvents):
     e = parse(myInp)
 
-
-
-
-
 while inp is not "done":
     inp = input("Enter here: ")
     addEvent(inp, myEvents)
