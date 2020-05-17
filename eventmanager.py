@@ -1,5 +1,4 @@
 from .events import *
-from .scheduler import *
 
 _OPTIONS = ["-d", "-t", "-r", "-s"]
 _myEvents = []
@@ -87,12 +86,13 @@ def add_event(myInp, myEvents=None):
     e = parse(myInp)
     print(myInp)
     if e is None:
-        return
+        return "Failed to add event."
     for i in myEvents:
         if i.getName() == e.getName():
             print("This eventname already exists! Maybe you meant to edit?")
             return
     myEvents.append(e)
+    return "Added event successfully. It should show up in the event list."
 
 
 def edit_event(myInp, myEvents):

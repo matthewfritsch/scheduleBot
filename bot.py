@@ -1,5 +1,5 @@
 from discord.ext import commands
-from EventHandler import add_event
+from eventmanager import add_event
 
 client = commands.Bot(command_prefix='!sch ')
 client.remove_command('help')
@@ -9,13 +9,12 @@ client.remove_command('help')
 async def on_ready():
     print('Bot is started.')
 
-# await ctx.send("> " + message) this line will just quote the user
-
 
 @client.command()
 async def add(ctx, *, message):
     print(ctx, message)
-    add_event(message)
+    success = add_event(message)
+    await ctx.send(success)
 
 
 @client.event
@@ -45,11 +44,5 @@ async def events(ctx):
     else:
         await ctx.send('No events currently!')
 
-# for filename in os.listdir('./cogs'):
-#    if filename.endswith('.py'):
-#        client.load_extension("cogs."+filename[:-3])
-#        print("Loaded ./cogs/" + filename)
-# client.load_extension("cogs.EventHandler")
-# print("Loaded ./cogs/EventHandler.py")
 
 client.run('')  # replace empty str with bot key
