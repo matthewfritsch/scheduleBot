@@ -1,4 +1,4 @@
-from .events import *
+from .events import Event
 
 _OPTIONS = ["-d", "-t", "-r", "-s"]
 _myEvents = []
@@ -85,12 +85,11 @@ def add_event(myInp, myEvents=None):
         myEvents = _myEvents
     e = parse(myInp)
     print(myInp)
-    if e is None:
-        return "Failed to add event."
     for i in myEvents:
         if i.getName() == e.getName():
-            print("This eventname already exists! Maybe you meant to edit?")
-            return
+            return "This eventname already exists! Maybe you meant to edit?"
+    if e is None:
+        return "Failed to add event."
     myEvents.append(e)
     return "Added event successfully. It should show up in the event list."
 
@@ -98,3 +97,4 @@ def add_event(myInp, myEvents=None):
 def edit_event(myInp, myEvents):
     e = parse(myInp)
     print("Editing events")
+
