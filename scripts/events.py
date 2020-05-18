@@ -15,7 +15,7 @@ class Event:
         if self.summ is not None:
             toRet = toRet + "\n--Summ: " + self.summ
         if self.role is not None:
-            toRet = toRet + "\n--Role: " + self.role
+            toRet = toRet + "\n--Role: \\" + self.role
         return toRet + "\n"
 
     def get_name(self):
