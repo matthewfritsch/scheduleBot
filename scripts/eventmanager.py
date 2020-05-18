@@ -1,13 +1,13 @@
 from .events import Event
 
 _OPTIONS = ["-d", "-t", "-r", "-s"]
-_myEvents = []
+allEvents = []
 
 
 def set_name(args):
     if args[0] is None or args[0] in _OPTIONS:
         return None
-    name = args[0]
+    name = ''
     for w in args:
         if w not in _OPTIONS:
             name += ' ' + w
@@ -53,6 +53,8 @@ def set_role(args):
     role = "@here"
     try:
         role = args[args.index("-r") + 1]
+        if '@' not in role:
+            role = '@' + role
     except IndexError:
         print("You forgot a role after '-r'! Try 'here', or '@HTML Team'!")
     except:
@@ -82,7 +84,7 @@ def parse(myInp):
 
 def add_event(myInp, myEvents=None):
     if myEvents is None:
-        myEvents = _myEvents
+        myEvents = allEvents
     e = parse(myInp)
     print(myInp)
     for i in myEvents:
