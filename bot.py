@@ -1,13 +1,9 @@
 from discord.ext import commands
-from scripts.eventmanager import add_event, _myEvents
+from scripts.eventmanager import add_event, allEvents
 
 client = commands.Bot(command_prefix='!sch ')
 client.remove_command('help')
 commandList = ['add', 'events', 'help']
-
-
-def pingUser(ctx):
-    await ctx.send('<@' + str(ctx.author.id) + '>')
 
 
 @client.event
@@ -17,8 +13,12 @@ async def on_ready():
 
 @client.command()
 async def add(ctx, *, message):
-    pingUser(ctx)
     await ctx.send(add_event(message))
+
+
+# @client.event
+# async def on_command(ctx):
+#    await ctx.send('<@' + str(ctx.author.id) + '>')
 
 
 @client.event
@@ -31,8 +31,8 @@ async def on_command_error(ctx, error):
 
 
 @client.command()
-async def help(ctx, message):
-    if message is None:
+async def help(ctx, *, message):
+    if message is None or message is '':
         await ctx.send('Type !sch <command> [OPTIONS], or !sch help <command> to see correct syntax!')
         cmdPrint = 'Commands include:'
         for cmd in commandList:
@@ -49,10 +49,9 @@ async def help(ctx, message):
 
 @client.command()
 async def events(ctx):
-    pingUser(ctx)
-    for e in _myEvents:
+    for e in allEvents:
         await ctx.send(e)
-    else:
+    if len(allEvents) is 0:
         await ctx.send('No events currently!')
 
 
