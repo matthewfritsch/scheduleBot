@@ -1,16 +1,16 @@
 class Event:
-    def __init__(self, name, date_time, summ, role):
+    def __init__(self, name, date_time, summary, role):
         self.name = name
         self.date_time = date_time
         self.role = role
-        self.summ = summ
+        self.summary = summary
 
     def __repr__(self):
         toRet = "Event: \n--Name: " + self.name
         if self.date_time is not None:
             toRet = toRet + "\n--Date: " + self.date
-        if self.summ is not None:
-            toRet = toRet + "\n--Summ: " + self.summ
+        if self.summary is not None:
+            toRet = toRet + "\n--Summ: " + self.summary
         if self.role is not None:
             toRet = toRet + "\n--Role: \\" + self.role
         return toRet + "\n"
@@ -24,8 +24,8 @@ class Event:
     def get_role(self):
         return self.role
 
-    def get_summ(self):
-        return self.summ
+    def get_summary(self):
+        return self.summary
 
     def set_name(self, name):
         self.name = name
@@ -36,5 +36,5 @@ class Event:
     def set_role(self, role):
         self.role = role
  
-    def set_summ(self, summ):
-        self.summ = summ
+    def set_summary(self, summary):
+        self.summary = summary
