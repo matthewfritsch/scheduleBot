@@ -4,6 +4,7 @@ class Event:
         self.date_time = date_time
         self.role = role
         self.summary = summary
+        self.notified = False
 
     def __repr__(self):
         toRet = "Event: \n--Name: " + self.name
@@ -26,6 +27,13 @@ class Event:
 
     def get_summary(self):
         return self.summary
+
+    def has_notified(self):
+        return self.notified
+
+    def notify(self):
+        self.notified = True
+        return "@" + self.role + "\n**" + self.name + "**\n" + self.summary
 
     def set_name(self, name):
         self.name = name
