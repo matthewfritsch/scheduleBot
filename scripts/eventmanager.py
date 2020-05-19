@@ -1,7 +1,35 @@
 from .events import Event
+from datetime import datetime, timedelta
 
 _OPTIONS = ["-d", "-t", "-r", "-s"]
 allEvents = []
+
+
+def format_date(date):
+    if len(date) == 0:
+        return None
+    weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    if 'a' in date:
+        for day in weekdays:
+            if day in date.lower() and len(date.split()) == 1:
+                current_weekday = datetime.today().weekday()
+                desired_weekday = weekdays.index(day)
+                days_from_now = desired_weekday - current_weekday
+                if days_from_now < 0:
+                    days_from_now += 7
+                date = str(datetime.now() + timedelta(days=days_from_now))
+                return date
+    if '/' in date:
+        nums = date.split('/')
+        print(nums)
+    if '-' in date:
+        nums = date.split('-')
+        print(nums)
+    return None
+
+
+def format_time(time, date):
+    return None
 
 
 def set_name(args):
@@ -17,35 +45,47 @@ def set_name(args):
 
 
 def set_date(args):
-    date = None
+    if '-d' not in args:
+        return str(datetime.now() + timedelta(days=1))
+    date = ''
     try:
-        date = args[args.index("-d") + 1]
+        current_index = args.index("-d") + 1
+        while not current_index >= len(args) and args[current_index] not in _OPTIONS:
+            date += ' ' + args[current_index]
+            current_index += 1
+        date = format_date(date)
+        print(date)
     except IndexError:
         print("You forgot a date after '-d'! Try '5/12', or 'Friday'!")
     except:
         pass
-    return date
+    return date if date is not None else None
 
 
-def set_time(args):
-    time = None
+def set_time(args, date):
+    time = ''
     try:
-        time = args[args.index("-t") + 1]
-    except IndexError:
-        print("You forgot a time after '-t'! Try '5:30PM', or 'Midnight'!")
+        current_index = args.index("-t") + 1
+        while not current_index >= len(args) and args[current_index] not in _OPTIONS:
+            time += ' ' + args[current_index]
+            current_index += 1
+        time = format_time(time, date)
     except:
-        pass
-    return time
+        print("There was a problem parsing your time. We got \n" + time)
+    return time if time is not None else None
 
 
-def set_summ(args):
-    summary = None
+def set_summary(args):
+    if '-s' not in args:
+        return None
+    summary = ''
     try:
-        summary = args[args.index("-s") + 1]
-    except IndexError:
-        print("You forgot a summary after '-s'! 'Remember to sign your work' is an example.")
+        current_index = args.index("-s") + 1
+        while not current_index >= len(args) and args[current_index] not in _OPTIONS:
+            summary += ' ' + args[current_index]
+            current_index += 1
     except:
-        pass
+        print("There was a problem parsing your summary. We got \n"+summary)
     return summary
 
 
@@ -53,12 +93,12 @@ def set_role(args):
     role = "@here"
     try:
         role = args[args.index("-r") + 1]
-        if '@' not in role:
-            role = '@' + role
     except IndexError:
         print("You forgot a role after '-r'! Try 'here', or '@HTML Team'!")
     except:
         pass
+    if '@' in role:
+        role = role.replace('@', '')
     return role
 
 
@@ -70,8 +110,8 @@ def parse(myInp):
     name = set_name(args)
     if name is None:
         return
-
-    return Event(name, set_date(args), set_time(args), set_summ(args), set_role(args))
+    date = set_date(args)
+    return Event(name, date, set_time(args, date), set_summary(args), set_role(args))
 
 
 # !sch add <eventName> [OPTIONS]
