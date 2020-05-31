@@ -1,5 +1,5 @@
 from .events import Event
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 _OPTIONS = ["-d", "-t", "-r", "-s"]
 allEvents = []
@@ -17,7 +17,7 @@ def format_date(date):
                 days_from_now = desired_weekday - current_weekday
                 if days_from_now < 0:
                     days_from_now += 7
-                date = str(datetime.now() + timedelta(days=days_from_now))
+                date = datetime.now() + timedelta(days=days_from_now)
                 return date
     if '/' in date:
         nums = date.split('/')
@@ -44,6 +44,23 @@ def set_name(args):
     return name
 
 
+def _td(x):
+    return timedelta(hours=x) * (-1 if x < 0 else 1)
+
+
+def _dst():
+   return datetime.now()
+
+
+def set_tz(args):
+    if '-z' not in args:
+        return 0
+    _tz_values = [-7, -6, -5, -4, -3, 0, 1, 2, 3, 4, 5.5, 8, 9, 10, 12]
+    _tz = {}
+    print(_tz)
+    return 0
+
+
 def set_date(args):
     if '-d' not in args:
         return str(datetime.now() + timedelta(days=1))
@@ -62,7 +79,9 @@ def set_date(args):
     return date if date is not None else None
 
 
-def set_time(args, date):
+def set_time(args, date, tz):
+    if '-t' not in args:
+        return date.replace(hour=23, minute=59, microsecond=999999, tzinfo=timezone(-timedelta(hours=8)))
     time = ''
     try:
         current_index = args.index("-t") + 1
@@ -110,8 +129,7 @@ def parse(myInp):
     name = set_name(args)
     if name is None:
         return
-    date = set_date(args)
-    return Event(name, date, set_time(args, date), set_summary(args), set_role(args))
+    return Event(name, set_time(args, set_date(args), set_tz(args)), set_summary(args), set_role(args))
 
 
 # !sch add <eventName> [OPTIONS]
@@ -120,6 +138,7 @@ def parse(myInp):
 # -t <time>
 # -s <summary>
 # -r <role>
+# -z <timezone>
 
 
 def add_event(myInp, myEvents=None):
@@ -128,7 +147,7 @@ def add_event(myInp, myEvents=None):
     e = parse(myInp)
     print(myInp)
     for i in myEvents:
-        if i.getName() == e.getName():
+        if i.get_name() == e.get_name():
             return "This eventname already exists! Maybe you meant to edit?"
     if e is None:
         return "Failed to add event."
